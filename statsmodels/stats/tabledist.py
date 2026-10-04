@@ -226,9 +226,9 @@ class TableDist:
         critv = self._critvals(n)
 
         # vectorized
-        cond_ilow = (prob > alpha[0])
-        cond_ihigh = (prob < alpha[-1])
-        cond_interior = np.logical_or(cond_ilow, cond_ihigh)
+        cond_ilow = (prob >= alpha[0])
+        cond_ihigh = (prob <= alpha[-1])
+        cond_interior = np.logical_and(cond_ilow, cond_ihigh)
 
         # scalar
         if prob.size == 1:
@@ -265,9 +265,9 @@ class TableDist:
         alpha = self.alpha
 
         # vectorized
-        cond_ilow = (prob > alpha[0])
-        cond_ihigh = (prob < alpha[-1])
-        cond_interior = np.logical_or(cond_ilow, cond_ihigh)
+        cond_ilow = (prob >= alpha[0])
+        cond_ihigh = (prob <= alpha[-1])
+        cond_interior = np.logical_and(cond_ilow, cond_ihigh)
 
         # scalar
         if prob.size == 1:

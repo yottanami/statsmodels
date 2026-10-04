@@ -123,3 +123,23 @@ def test_no_interp2d():
     lf = TableDist(alpha, size, crit)
     assert_almost_equal(lf.crit(0.15, 5), lf.crit3(0.15, 5), decimal=3)
     assert 0 < lf.prob(0.30, 5) < 1
+
+
+def test_crit_outside_table_is_nan():
+    # crit and crit3 return nan for probabilities outside the tabulated
+    # alpha range, as crit3 documents, instead of raising or extrapolating
+    from statsmodels.stats._lilliefors import get_lilliefors_table
+
+    lf = get_lilliefors_table("norm")
+    low, high = lf.alpha[0] / 10, (1 + lf.alpha[-1]) / 2
+    for method in (lf.crit, lf.crit3):
+        assert np.isnan(method(low, 20))
+        assert np.isnan(method(high, 20))
+        # the table edges themselves are still inside
+        assert np.isfinite(method(lf.alpha[0], 20))
+        assert np.isfinite(method(lf.alpha[-1], 20))
+
+    vals = lf.crit(np.array([low, 0.15, high]), 20)
+    assert np.isnan(vals[0])
+    assert np.isnan(vals[2])
+    assert_allclose(vals[1], lf.crit(0.15, 20))

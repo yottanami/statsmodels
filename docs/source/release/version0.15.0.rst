@@ -930,6 +930,9 @@ Notable Bug Fixes
 - ``ARDLResults.apply``/``append`` no longer raises on a legitimate
   no-``exog``-to-no-``exog`` round trip, and its ``exog``-mismatch error
   messages are now actually reachable. :pr:`10207`
+- ``TableDist.crit`` and ``TableDist.crit3`` return ``NaN`` for probabilities
+  outside the tabulated range, as documented, instead of raising
+  (``crit``) or extrapolating (``crit3``).
 
 
 Build, Packaging, and Infrastructure
