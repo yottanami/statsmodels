@@ -192,3 +192,14 @@ def test_stde_axis():
     assert_almost_equal(stde(x1, x2, axis=1) ** 2, vare(x1, x2, axis=1), decimal=14)
     assert_equal(stde(x1, x2, axis=0).shape, (4,))
     assert_equal(stde(x1, x2, axis=1).shape, (6,))
+
+
+@pytest.mark.parametrize("zeros", [np.nan, 0])
+def test_rmspe_integer_input(zeros):
+    # integer inputs give the same result as the same values as floats;
+    # the percentage errors used to be truncated to 0 in an integer array
+    y = np.array([10, 20, 0, 40])
+    y_hat = np.array([11, 22, 1, 36])
+    expected = rmspe(y.astype(float), y_hat.astype(float), zeros=zeros)
+    assert expected > 0
+    assert_almost_equal(rmspe(y, y_hat, zeros=zeros), expected)

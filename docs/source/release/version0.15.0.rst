@@ -930,6 +930,8 @@ Notable Bug Fixes
 - ``ARDLResults.apply``/``append`` no longer raises on a legitimate
   no-``exog``-to-no-``exog`` round trip, and its ``exog``-mismatch error
   messages are now actually reachable. :pr:`10207`
+- ``rmspe`` computes its percentage errors in floating point, so integer
+  inputs no longer truncate them to 0.
 
 
 Build, Packaging, and Infrastructure
