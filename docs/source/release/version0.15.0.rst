@@ -930,6 +930,9 @@ Notable Bug Fixes
 - ``ARDLResults.apply``/``append`` no longer raises on a legitimate
   no-``exog``-to-no-``exog`` round trip, and its ``exog``-mismatch error
   messages are now actually reachable. :pr:`10207`
+- ``brentq_expanding`` retries a ``NaN`` at the upper starting bound inside
+  the starting interval, as it already did for the lower bound, instead of
+  further outside it.
 
 
 Build, Packaging, and Infrastructure
