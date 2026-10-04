@@ -23,6 +23,11 @@ def func_nan(x, a, b):
     return f
 
 
+def func_nan_upper(x, a, b):
+    # scalar in, scalar out: unlike func_nan, this one reaches brentq
+    return np.nan if x > b else (x - 1.0 * a) ** 3
+
+
 def funcn(x, a):
     f = -((x - a) ** 3)
     return f
@@ -96,3 +101,10 @@ def test_brentq_expanding():
         assert_equal(val, getattr(info, k))
 
     assert_allclose(info.root, a, rtol=1e-5)
+
+
+def test_brentq_expanding_nan_at_upper_bound():
+    # func is nan at the upper starting bound 1; the retries have to probe
+    # inside the starting interval, as they already do at the lower bound
+    val = brentq_expanding(func_nan_upper, args=(-20, 0.6))
+    assert_allclose(val, -20, rtol=1e-5)

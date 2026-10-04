@@ -173,7 +173,7 @@ def brentq_expanding(func, low=None, upp=None, args=(), xtol=1e-5,
                                  "bounds")
         if np.isnan(f_upp):
             for fraction in [0.25, 0.5, 0.75]:
-                su_ = su + fraction * delta
+                su_ = su - fraction * delta
                 f_upp = func(su_, *args)
                 if not np.isnan(f_upp):
                     break
